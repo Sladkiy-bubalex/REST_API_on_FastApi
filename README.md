@@ -6,12 +6,12 @@
 
 ## Функционал
 
-- CRUD операции
-- Создание: POST /advertisement
-- Обновление: PATCH /advertisement/{advertisement_id}
-- Удаление: DELETE /advertisement/{advertisement_id}
-- Получение по id: GET  /advertisement/{advertisement_id}
-- Поиск по полям: GET /advertisement?{query_string}
+- CRUD операции по объявлениям и пользователям
+- Поиск объявлений по описанию и заголовку
+- Авторизация и аутентификация
+- Ограничение прав
+- Миграции в БД
+- Контейниризация и оркестрация
 
 ## Начало работы
 
@@ -28,3 +28,4 @@
 6. Docker
 7. Docker-compose
 8. Logging
+9. PyJWT
