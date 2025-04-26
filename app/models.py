@@ -1,6 +1,7 @@
 from decimal import Decimal
 from datetime import datetime
-from sqlalchemy import ForeignKey, func
+from config import ROLE
+from sqlalchemy import ForeignKey, func, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.ext.asyncio import AsyncAttrs
 
@@ -15,23 +16,17 @@ class Base(DeclarativeBase, AsyncAttrs):
         return {"id": self.id}
 
 
-# class User(Base):
-#     __tablename__ = "Users"
-
-#     email: Mapped[str] = mapped_column(unique=True, nullable=True)
-#     password: Mapped[str] = mapped_column(nullable=True)
-#     is_admin: Mapped[bool] = mapped_column(default=False)
-#     advertisement: Mapped[int] = relationship()
-
-
 class Advertisement(Base):
     __tablename__ = "Advertisements"
 
     title: Mapped[str] = mapped_column(nullable=True)
     description: Mapped[str]
     price: Mapped[Decimal] = mapped_column(nullable=True)
-    # user_id: Mapped[int] = mapped_column(ForeignKey("Users.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("Users.id"))
     create_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    user: Mapped["User"] = relationship(
+        "User", lazy="joined", back_populates="advertisements"
+    )
 
     @property
     def json(self):
@@ -40,10 +35,25 @@ class Advertisement(Base):
             "title": self.title,
             "price": self.price,
             "description": self.description,
-            # "user_id": self.user_id,
+            "user_id": self.user_id,
             "create_at": self.create_at,
         }
 
 
-ORM_OBJ = Advertisement
-ORM_CLS = type [Advertisement]
+class User(Base):
+    __tablename__ = "Users"
+
+    nickname: Mapped[str] = mapped_column(unique=True, nullable=True)
+    password: Mapped[str] = mapped_column(nullable=True)
+    role: Mapped[ROLE] = mapped_column(String, default="user")
+    advertisements: Mapped[list["Advertisement"]] = relationship(
+        Advertisement, lazy="joined", back_populates="user"
+    )
+
+    @property
+    def user_json(self):
+        return {"id": self.id, "nickname": self.nickname, "role": self.role}
+
+
+ORM_OBJ = Advertisement | User
+ORM_CLS = type[Advertisement] | type[User]

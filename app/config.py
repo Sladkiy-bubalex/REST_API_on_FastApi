@@ -1,6 +1,11 @@
 import logging
 import os
+from typing import Literal
 
+
+SECRET_KEY = "Enter the secret key"
+ALGORITHM = "the encryption algorithm"
+ACCESS_TOKEN_EXPIRE_HOURS = 48
 
 # Setting up logging
 logging.basicConfig(level=logging.INFO)
@@ -23,3 +28,5 @@ PG_DSN = (
 )
 
 SUCCESS_REPONSE = {"status": "success"}
+
+ROLE = Literal["user"] | Literal["admin"]

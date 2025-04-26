@@ -17,7 +17,9 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-config.set_main_option("sqlalchemy.url", PG_DSN + "?async_fallback=True")  # Заменям дэфолтную ссылку бд на нашу.
+config.set_main_option(
+    "sqlalchemy.url", PG_DSN + "?async_fallback=True"
+)  # Заменям дэфолтную ссылку бд на нашу.
 
 # add your model's MetaData object here
 # for 'autogenerate' support
