@@ -15,8 +15,11 @@
 
 ## Начало работы
 
-- Необходимо установить [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- Запустить команду ```docker-compose up -d```
+- Установите значения для базы данных в файле .env
+- Сгенерируйте и внестие секретный ключ в файле config.py
+- Укажите алгоритм шифрования в файле config.py
+- Установите [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- Запустите команду ```docker-compose up -d```
 
 ## Стэк
 
